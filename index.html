@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nepali Type — Type Nepali with English Keys</title>
+<meta name="description" content="Type Nepali Unicode using your English keyboard. Real-time Romanized Nepali to Devanagari transliteration.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700&family=Tiro+Devanagari:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1B2340;
+  --ink-soft: #2E3C5A;
+  --saffron: #E8890C;
+  --saffron-light: #F9A825;
+  --crimson: #C0392B;
+  --parchment: #F7F3EE;
+  --parchment-dark: #EDE8E0;
+  --slate: #8899AA;
+  --slate-light: #B8C6D4;
+  --white: #FFFFFF;
+  --shadow: 0 2px 12px rgba(27,35,64,0.10);
+  --shadow-lg: 0 8px 40px rgba(27,35,64,0.14);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: 0.2s ease;
+
+  --bg: var(--parchment);
+  --bg2: var(--white);
+  --bg3: var(--parchment-dark);
+  --text: var(--ink);
+  --text-soft: var(--ink-soft);
+  --text-muted: var(--slate);
+  --border: rgba(27,35,64,0.12);
+  --accent: var(--saffron);
+  --editor-bg: var(--white);
+  --output-bg: #F0EDF8;
+  --output-text: #1B2340;
+}
+[data-theme="dark"] {
+  --bg: #111827;
+  --bg2: #1C2537;
+  --bg3: #243047;
+  --text: #E8EDF5;
+  --text-soft: #B8C6D4;
+  --text-muted: #6B7A99;
+  --border: rgba(255,255,255,0.09);
+  --accent: var(--saffron-light);
+  --editor-bg: #1C2537;
+  --output-bg: #1A2040;
+  --output-text: #D4C8F5;
+  --shadow: 0 2px 12px rgba(0,0,0,0.35);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.45);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: 'Mukta', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  transition: background var(--transition), color var(--transition);
+}
+/* ── HEADER ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.header-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 20px;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--text);
+}
+.logo-mark {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--crimson) 100%);
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Tiro Devanagari', serif;
+  color: white; font-size: 18px; font-weight: 700;
+  flex-shrink: 0;
+}
+.logo-text { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
+.logo-sub { font-size: 0.7rem; color: var(--text-muted); font-weight: 400; display: block; line-height: 1; }
+.header-actions { display: flex; align-items: center; gap: 8px; }
+.btn-icon {
+  background: none; border: 1px solid var(--border);
+  color: var(--text-soft); cursor: pointer;
+  width: 36px; height: 36px; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition); font-size: 16px;
+}
+.btn-icon:hover { background: var(--bg3); border-color: var(--accent); color: var(--accent); }
+.kbd {
+  display: inline-flex; align-items: center;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 6px;
+  font-size: 0.7rem; color: var(--text-muted); font-family: monospace;
+}
+/* ── HERO ── */
+.hero {
+  max-width: 1100px; margin: 0 auto;
+  padding: 36px 20px 20px;
+}
+.hero-tagline {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700; letter-spacing: -0.03em;
+  color: var(--text); line-height: 1.2; margin-bottom: 6px;
+}
+.hero-tagline span {
+  background: linear-gradient(90deg, var(--saffron) 0%, var(--crimson) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub { color: var(--text-muted); font-size: 0.95rem; }
+/* ── EDITOR ── */
+.editor-wrap {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 20px 20px;
+}
+.editor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 700px) {
+  .editor-grid { grid-template-columns: 1fr; }
+}
+.editor-panel {
+  background: var(--editor-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  transition: box-shadow var(--transition), border-color var(--transition);
+}
+.editor-panel:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(232,137,12,0.15), var(--shadow); }
+.panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg3);
+}
+.panel-label {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted);
+  display: flex; align-items: center; gap: 6px;
+}
+.panel-label .lang-flag {
+  width: 18px; height: 12px; border-radius: 2px;
+  display: inline-block; background: #ddd; overflow: hidden;
+  font-size: 13px; line-height: 12px; text-align: center;
+}
+.panel-actions { display: flex; gap: 4px; }
+.btn-sm {
+  background: none; border: 1px solid var(--border);
+  color: var(--text-muted); cursor: pointer;
+  padding: 3px 9px; border-radius: 6px;
+  font-size: 0.72rem; font-family: 'Mukta', sans-serif;
+  font-weight: 500;
+  transition: all var(--transition);
+  display: flex; align-items: center; gap: 4px;
+  white-space: nowrap;
+}
+.btn-sm:hover { background: var(--bg3); color: var(--text); border-color: var(--accent); }
+.btn-sm.btn-accent {
+  background: var(--accent); color: white; border-color: var(--accent);
+}
+.btn-sm.btn-accent:hover { opacity: 0.88; }
+.btn-sm svg { flex-shrink: 0; }
+textarea#input-box {
+  width: 100%; flex: 1; min-height: 220px;
+  border: none; outline: none; resize: none;
+  background: var(--editor-bg); color: var(--text);
+  font-family: 'Mukta', sans-serif;
+  font-size: 1.05rem; line-height: 1.7;
+  padding: 16px 16px 10px;
+  transition: background var(--transition), color var(--transition);
+}
+textarea#input-box::placeholder { color: var(--text-muted); font-style: italic; }
+.output-panel { background: var(--output-bg); }
+.output-panel .panel-header { background: rgba(139,90,200,0.07); }
+#output-box {
+  flex: 1; min-height: 220px;
+  padding: 16px 16px 10px;
+  font-family: 'Tiro Devanagari', serif;
+  font-size: 1.15rem; line-height: 1.9;
+  color: var(--output-text);
+  white-space: pre-wrap; word-break: break-word;
+  overflow-y: auto;
+  cursor: text; user-select: text;
+}
+#output-box.empty { 
+  font-family: 'Mukta', sans-serif;
+  font-size: 0.92rem; color: var(--text-muted);
+  display: flex; align-items: flex-start;
+  padding-top: 18px;
+}
+.panel-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 14px 8px;
+  border-top: 1px solid var(--border);
+  background: var(--bg3);
+}
+.counter { font-size: 0.7rem; color: var(--text-muted); }
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+  background: var(--ink); color: white;
+  padding: 9px 20px; border-radius: 40px;
+  font-size: 0.85rem; font-weight: 500;
+  box-shadow: var(--shadow-lg); z-index: 999;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0; pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+/* ── EXAMPLES ── */
+.examples-section {
+  max-width: 1100px; margin: 0 auto;
+  padding: 8px 20px 32px;
+}
+.section-title {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.examples-grid {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.example-chip {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 40px; padding: 6px 14px;
+  cursor: pointer; font-size: 0.85rem;
+  display: flex; flex-direction: column; gap: 2px;
+  transition: all var(--transition);
+  line-height: 1.3;
+}
+.example-chip:hover {
+  border-color: var(--accent); background: var(--bg3);
+  transform: translateY(-1px); box-shadow: var(--shadow);
+}
+.example-rom { color: var(--text-muted); font-size: 0.75rem; }
+.example-nep { color: var(--text); font-family: 'Tiro Devanagari', serif; font-size: 0.95rem; }
+/* ── HISTORY ── */
+.history-section {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 20px 40px;
+}
+.history-list {
+  display: flex; flex-direction: column; gap: 8px;
+  max-height: 200px; overflow-y: auto;
+}
+.history-item {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 10px 14px;
+  cursor: pointer; transition: all var(--transition);
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+}
+.history-item:hover { border-color: var(--accent); }
+.history-item .hi-text { font-family: 'Tiro Devanagari', serif; font-size: 0.9rem; color: var(--text); flex: 1; }
+.history-item .hi-src { font-size: 0.72rem; color: var(--text-muted); }
+.history-item .hi-time { font-size: 0.68rem; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; }
+.history-empty { color: var(--text-muted); font-size: 0.85rem; font-style: italic; }
+/* ── SHORTCUTS ── */
+.shortcuts-row {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0 20px 20px;
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+}
+.shortcut-tag {
+  font-size: 0.72rem; color: var(--text-muted);
+  display: flex; align-items: center; gap: 4px;
+}
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+/* ── UTILS ── */
+.divider { height: 1px; background: var(--border); margin: 0 0 20px; }
+.copied-flash { animation: flash 0.3s ease; }
+@keyframes flash {
+  0% { background: rgba(232,137,12,0.3); }
+  100% { background: transparent; }
+}
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+/* Spinner for async */
+.spin { animation: spin 1s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">न</div>
+      <div>
+        <span class="logo-text">Nepali Type</span>
+        <span class="logo-sub">नेपाली टाइप</span>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button class="btn-icon" id="theme-toggle" title="Toggle dark/light mode" aria-label="Toggle theme">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1 class="hero-tagline">Type Nepali with your <span>English keyboard</span></h1>
+  <p class="hero-sub">Romanized Nepali → Devanagari Unicode, instantly.</p>
+</section>
+
+<!-- EDITOR -->
+<section class="editor-wrap">
+  <div class="editor-grid">
+    <!-- INPUT -->
+    <div class="editor-panel" id="input-panel">
+      <div class="panel-header">
+        <div class="panel-label">
+          <span class="lang-flag">🇬🇧</span> Romanized Nepali (English)
+        </div>
+        <div class="panel-actions">
+          <button class="btn-sm" id="paste-btn" title="Paste from clipboard">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+            Paste
+          </button>
+          <button class="btn-sm" id="clear-btn" title="Clear input">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            Clear
+          </button>
+        </div>
+      </div>
+      <textarea
+        id="input-box"
+        placeholder="Type here... e.g. namaste, tapai lai kasto cha?"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        aria-label="Type Romanized Nepali here"
+      ></textarea>
+      <div class="panel-footer">
+        <span class="counter" id="input-counter">0 chars · 0 words</span>
+        <span style="font-size:0.68rem;color:var(--text-muted);">Space to confirm word</span>
+      </div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="editor-panel output-panel" id="output-panel">
+      <div class="panel-header">
+        <div class="panel-label">
+          <span class="lang-flag">🇳🇵</span> Nepali (नेपाली)
+        </div>
+        <div class="panel-actions">
+          <button class="btn-sm" id="copy-btn" title="Copy Nepali text (Ctrl+Shift+C)">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy
+          </button>
+          <button class="btn-sm btn-accent" id="download-btn" title="Download as .txt file">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+          </button>
+        </div>
+      </div>
+      <div id="output-box" class="empty" role="region" aria-label="Nepali output" aria-live="polite">
+        Nepali text will appear here…
+      </div>
+      <div class="panel-footer">
+        <span class="counter" id="output-counter">0 chars</span>
+        <span style="font-size:0.68rem;color:var(--text-muted);">नेपाली युनिकोड</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHORTCUTS -->
+<div class="shortcuts-row">
+  <span class="shortcut-tag"><kbd class="kbd">Ctrl+Shift+C</kbd> Copy output</span>
+  <span class="shortcut-tag" style="margin-left:6px;"><kbd class="kbd">Ctrl+Shift+X</kbd> Clear all</span>
+  <span class="shortcut-tag" style="margin-left:6px;"><kbd class="kbd">Ctrl+Shift+D</kbd> Download</span>
+</div>
+
+<!-- EXAMPLES -->
+<section class="examples-section">
+  <div class="section-title">Try these examples</div>
+  <div class="examples-grid" id="examples-grid">
+    <!-- populated by JS -->
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section class="history-section" id="history-section" style="display:none">
+  <div class="divider"></div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <div class="section-title" style="margin-bottom:0">Recent Conversions</div>
+    <button class="btn-sm" id="clear-history-btn">Clear history</button>
+  </div>
+  <div class="history-list" id="history-list"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    <strong>Nepali Type</strong> · नेपाली टाइप &nbsp;·&nbsp;
+    Romanized Nepali to Devanagari Unicode &nbsp;·&nbsp;
+    Works entirely in your browser &nbsp;·&nbsp;
+    No login or internet required &nbsp;·&nbsp;
+    Open &amp; free
+  </p>
+  <p style="margin-top:6px;">Made with ♥ for the Nepali-speaking community</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast" role="status" aria-live="assertive"></div>
+
+<script>
+// ════════════════════════════════════════════════
+//  TRANSLITERATION ENGINE
+//  Comprehensive Romanized Nepali → Devanagari
+// ════════════════════════════════════════════════
+
+// Vowel maps
+const VOWELS = {
+  'aa': 'आ', 'ii': 'ई', 'uu': 'ऊ', 'ee': 'ई', 'oo': 'ओ', 'au': 'औ', 'ai': 'ऐ', 'ae': 'ऐ',
+  'a': 'अ', 'i': 'इ', 'u': 'उ', 'e': 'ए', 'o': 'ओ',
+  'ri': 'ऋ', 'rri': 'ृ',
+};
+
+// Vowel matra (after consonant)
+const MATRA = {
+  'aa': 'ा', 'ii': 'ी', 'uu': 'ू', 'ee': 'ी', 'oo': 'ो', 'au': 'ौ', 'ai': 'ै', 'ae': 'ै',
+  'a': 'ा', 'i': 'ि', 'u': 'ु', 'e': 'े', 'o': 'ो',
+  'ri': 'ृ', 'rri': 'ृ',
+};
+
+// Consonant base forms
+const CONSONANTS = {
+  'ksha': 'क्ष', 'ksh': 'क्ष', 'gya': 'ज्ञ', 'gy': 'ज्ञ', 'tra': 'त्र',
+  'shri': 'श्री', 'shr': 'श्र', 'shn': 'श्न',
+  'dha': 'ध', 'dhi': 'धि', 'dhu': 'धु', 'dhe': 'धे', 'dho': 'धो',
+  'Dha': 'ढ', 'Dhi': 'ढि', 'Dhu': 'ढु', 'Dhe': 'ढे', 'Dho': 'ढो',
+  'tha': 'थ', 'thi': 'थि', 'thu': 'थु', 'the': 'थे', 'tho': 'थो',
+  'Tha': 'ठ', 'Thi': 'ठि', 'Thu': 'ठु', 'The': 'ठे', 'Tho': 'ठो',
+  'cha': 'च', 'chi': 'चि', 'chu': 'चु', 'che': 'चे', 'cho': 'चो',
+  'chh': 'छ', 'ch': 'च',
+  'sha': 'श', 'shi': 'शि', 'shu': 'शु', 'she': 'शे', 'sho': 'शो',
+  'sh': 'श', 'jha': 'झ', 'jhi': 'झि', 'jhu': 'झु', 'jhe': 'झे', 'jho': 'झो', 'jh': 'झ',
+  'ph': 'फ', 'bh': 'भ', 'mh': 'म्ह', 'nh': 'न्ह', 'lh': 'ल्ह',
+  'ng': 'ङ', 'ny': 'ञ',
+  'gh': 'घ', 'kh': 'ख', 'Ch': 'छ',
+  'ts': 'च', 'zh': 'ज', 'wh': 'ह्व',
+  'ngh': 'ङ',
+};
+
+// Single consonants
+const SINGLE_CONS = {
+  'k': 'क', 'K': 'क', 'g': 'ग', 'G': 'ग', 'c': 'क', 'C': 'क',
+  'j': 'ज', 'J': 'ज', 'z': 'ज', 'Z': 'ज',
+  't': 'त', 'T': 'ट', 'd': 'द', 'D': 'ड',
+  'n': 'न', 'N': 'ण', 'm': 'म', 'M': 'म',
+  'p': 'प', 'b': 'ब', 'B': 'ब',
+  'y': 'य', 'r': 'र', 'R': 'ऱ', 'l': 'ल', 'L': 'ळ',
+  'v': 'व', 'w': 'व', 'W': 'व',
+  's': 'स', 'S': 'स', 'h': 'ह', 'H': 'ह',
+  'f': 'फ', 'F': 'फ', 'x': 'क्ष',
+  'q': 'क',
+};
+
+// Special anusvara / chandrabindu
+const SPECIAL = {
+  'M': 'ं', 'N': 'ँ', 'H': 'ः',
+};
+
+// Full word dictionary for common Nepali words (most frequent first)
+const WORD_DICT = {
+  // Greetings & phrases
+  'namaste': 'नमस्ते', 'namaskar': 'नमस्कार', 'namasté': 'नमस्ते',
+  'dhanyabad': 'धन्यवाद', 'shukriya': 'शुक्रिया',
+  'hajur': 'हजुर', 'hunchha': 'हुन्छ', 'hudaina': 'हुँदैन', 'hudai': 'हुँदै',
+  'chha': 'छ', 'chhaina': 'छैन', 'chhan': 'छन्', 'chhau': 'छौ', 'chhau\n': 'छौ\n',
+  'cha': 'छ', 'chaina': 'छैन', 'chan': 'छन्',
+  
+  // Common words
+  'ma': 'म', 'mero': 'मेरो', 'meri': 'मेरी', 'mero': 'मेरो',
+  'tapai': 'तपाई', 'tapain': 'तपाईँ', 'tapailai': 'तपाईंलाई',
+  'tapai\'lai': 'तपाईंलाई', 'tapailai': 'तपाईंलाई',
+  'timi': 'तिमी', 'timro': 'तिम्रो',
+  'tyo': 'त्यो', 'yo': 'यो', 'yini': 'यिनी', 'tyini': 'त्यिनी',
+  'hami': 'हामी', 'hamro': 'हाम्रो', 'timiharu': 'तिमीहरू', 'uniharuu': 'उनीहरू',
+  'wahaan': 'वहाँ', 'wahaa': 'वहाँ', 'uniharu': 'उनीहरू', 'uni': 'उनी',
+  'ko': 'को', 'lai': 'लाई', 'bata': 'बाट', 'sanga': 'सँग', 'ma': 'म',
+  'ra': 'र', 'wa': 'वा', 'wa': 'वा',
+  'tara': 'तर', 'kinaki': 'किनकि', 'ani': 'अनि', 'pani': 'पनि',
+  'bhane': 'भने', 'bhaneko': 'भनेको', 'jasto': 'जस्तो', 'kasari': 'कसरी',
+  'kati': 'कति', 'kaha': 'कहाँ', 'kahaa': 'कहाँ', 'kina': 'किन',
+  'ke': 'के', 'kasle': 'कसले', 'kasai': 'कसैलाई',
+  'kun': 'कुन', 'kuna': 'कुन', 'kunai': 'कुनै',
+  'thyo': 'थियो', 'thiyo': 'थियो', 'thie': 'थिए', 'thiyo': 'थियो',
+  'huncha': 'हुन्छ', 'hunchha': 'हुन्छ', 'garchhu': 'गर्छु',
+  'garne': 'गर्ने', 'garney': 'गर्ने', 'garnu': 'गर्नु',
+  'gareko': 'गरेको', 'gareki': 'गरेकी',
+  
+  // Verbs
+  'aaunu': 'आउनु', 'jaanu': 'जानु', 'bhaag': 'भाग', 'gau': 'गाउ',
+  'bhayo': 'भयो', 'bhaisakyo': 'भइसक्यो',
+  'dekhnu': 'देख्नु', 'sunnu': 'सुन्नु', 'bolnu': 'बोल्नु',
+  'khanu': 'खानु', 'peenu': 'पिउनु',
+  'sodhnu': 'सोध्नु', 'bujhnu': 'बुझ्नु', 'padnu': 'पढ्नु',
+  'lekhnu': 'लेख्नु', 'uthnu': 'उठ्नु', 'sautnu': 'सुत्नु',
+  'basnu': 'बस्नु', 'dinu': 'दिनु', 'linu': 'लिनु',
+  'bhanu': 'भन्नु', 'khojnu': 'खोज्नु', 'khelnu': 'खेल्नु',
+  'khiichnu': 'खिँच्नु', 'raknu': 'राख्नु', 'rakhnu': 'राख्नु',
+  'chadnu': 'चढ्नु', 'sochnu': 'सोच्नु', 'nachnu': 'नाच्नु',
+  'jadai': 'जाँदै', 'aaudai': 'आउँदै', 'gardai': 'गर्दै',
+  'chu': 'छु', 'hunchhu': 'हुँछु', 'aauchhu': 'आउँछु',
+  'jaanchhu': 'जान्छु', 'gardachhu': 'गर्दछु',
+
+  // Common nouns
+  'naam': 'नाम', 'naam': 'नाम', 'ghar': 'घर', 'kaam': 'काम',
+  'manche': 'मान्छे', 'manchhe': 'मान्छे', 'ketaa': 'केटा', 'keti': 'केटी',
+  'aama': 'आमा', 'aamaa': 'आमा', 'buba': 'बुबा', 'didi': 'दिदी', 'dai': 'दाइ',
+  'bahini': 'बहिनी', 'bhai': 'भाइ', 'saathi': 'साथी',
+  'school': 'स्कुल', 'hospital': 'अस्पताल', 'bus': 'बस',
+  'paisa': 'पैसा', 'khana': 'खाना', 'pani': 'पानी',
+  'kaam': 'काम', 'desh': 'देश', 'shahar': 'शहर', 'gaau': 'गाउँ',
+  'din': 'दिन', 'raati': 'राति', 'bihaan': 'बिहान', 'beluka': 'बेलुका',
+  'aaja': 'आज', 'bholi': 'भोलि', 'hijo': 'हिजो',
+  'afno': 'आफ्नो', 'afnai': 'आफ्नै',
+  
+  // Adjectives / common
+  'ramro': 'राम्रो', 'ramri': 'राम्री', 'naramro': 'नराम्रो',
+  'thulo': 'ठूलो', 'sano': 'सानो', 'aglo': 'अग्लो', 'dherai': 'धेरै',
+  'thora': 'थोरा', 'thorai': 'थोरै', 'sab': 'सब', 'sabai': 'सबै',
+  'kasto': 'कस्तो', 'jastos': 'जस्तो', 'tyasto': 'त्यस्तो',
+  'euta': 'एउटा', 'duitaa': 'दुईटा', 'teesta': 'तेस्तो',
+  'naya': 'नया', 'purno': 'पूर्ण', 'purano': 'पुरानो',
+  'thik': 'ठिक', 'thikai': 'ठिकै', 'sahi': 'सही',
+  'raato': 'रातो', 'seto': 'सेतो', 'kalo': 'कालो', 'nilo': 'निलो',
+  'pahelo': 'पहेलो', 'hariyo': 'हरियो',
+  
+  // Questions and social
+  'k': 'के', 'huncha': 'हुन्छ', 'haina': 'होइन', 'ho': 'हो', 'hoina': 'होइन',
+  'hauss': 'हाउस', 'haus': 'हौस',
+  'khalti': 'खल्ती', 'thaha': 'थाहा', 'theena': 'थिएन',
+  
+  // Numbers
+  'ek': 'एक', 'dui': 'दुई', 'tin': 'तीन', 'chaar': 'चार', 'char': 'चार',
+  'paach': 'पाँच', 'paanch': 'पाँच', 'chha': 'छ', 'saat': 'सात',
+  'aath': 'आठ', 'nau': 'नौ', 'das': 'दस',
+  
+  // Direction
+  'maathi': 'माथि', 'tala': 'तल', 'agadi': 'अगाडि', 'pachadi': 'पछाडि',
+  'dakshine': 'दक्षिणे', 'uttar': 'उत्तर',
+  
+  // Conversational
+  'hajur': 'हजुर', 'hae': 'है', 'lau': 'लाउ', 'bholi': 'भोलि',
+  'sochnu': 'सोच्नु', 'aba': 'अब', 'abba': 'अब',
+  'pachi': 'पछि', 'aghi': 'अघि',
+  'ishan': 'इशान', 'sujan': 'सुजन', 'milan': 'मिलन', 'sita': 'सिता',
+  'rita': 'रिता', 'gita': 'गीता', 'sanjay': 'सञ्जय', 'ram': 'राम',
+  'nepal': 'नेपाल', 'kathmandu': 'काठमाडौं', 'pokhara': 'पोखरा',
+  'lalitpur': 'ललितपुर', 'bhaktapur': 'भक्तपुर',
+  
+  // Contractions and short forms
+  'k': 'के', 'n': 'न', 'm': 'म',
+
+  // particles
+  'le': 'ले', 'nai': 'नै', 'chai': 'चाहिँ', 'ta': 'त', 'ni': 'नि',
+  'nare': 'नरे', 'hola': 'होला', 'garla': 'गर्ला', 'aula': 'आउला',
+};
+
+// Punctuation map
+const PUNCT_MAP = {
+  '.': '।', '..': '।।', '?': '?', '!': '!',
+};
+
+// ── Core transliteration of a single word token ──
+function transliterateWord(word) {
+  if (!word || word.trim() === '') return word;
+  
+  const low = word.toLowerCase();
+  
+  // Check dictionary (case-insensitive key)
+  if (WORD_DICT[low]) return WORD_DICT[low];
+  if (WORD_DICT[word]) return WORD_DICT[word];
+  
+  // Fallback: character-by-character engine
+  return charEngine(word);
+}
+
+// The character-level engine: converts character sequences to Devanagari
+function charEngine(input) {
+  let result = '';
+  let i = 0;
+  let prevWasConsonant = false;
+
+  while (i < input.length) {
+    // Check 4-char combos first
+    let seg4 = input.slice(i, i+4).toLowerCase();
+    let seg3 = input.slice(i, i+3).toLowerCase();
+    let seg3orig = input.slice(i, i+3);
+    let seg2 = input.slice(i, i+2).toLowerCase();
+    let seg2orig = input.slice(i, i+2);
+    let seg1 = input[i].toLowerCase();
+    let seg1orig = input[i];
+
+    // Double consonant → halant + consonant (virama)
+    // e.g. 'tt' → 'त्त', 'kk' → 'क्क'
+    if (i+1 < input.length && input[i] === input[i+1] && SINGLE_CONS[seg1]) {
+      const cons = SINGLE_CONS[seg1];
+      if (prevWasConsonant) result += '्'; // halant on previous
+      result += cons + '्' + cons;
+      // Now look ahead for vowel
+      i += 2;
+      const v = readVowel(input, i);
+      if (v) {
+        result += v.matra;
+        i += v.len;
+        prevWasConsonant = false;
+      } else {
+        result = result.slice(0, -cons.length) + cons; // remove second consonant duplication
+        prevWasConsonant = true;
+      }
+      continue;
+    }
+
+    // 3-char special combos
+    if (CONSONANTS[seg3orig] || CONSONANTS[seg3]) {
+      const k = CONSONANTS[seg3orig] || CONSONANTS[seg3];
+      if (prevWasConsonant) result += '्';
+      result += k;
+      i += 3;
+      const v = readVowel(input, i);
+      if (v) { result += v.matra; i += v.len; prevWasConsonant = false; }
+      else prevWasConsonant = true;
+      continue;
+    }
+    
+    // 2-char combos
+    if (CONSONANTS[seg2orig] || CONSONANTS[seg2]) {
+      const k = CONSONANTS[seg2orig] || CONSONANTS[seg2];
+      if (prevWasConsonant) result += '्';
+      result += k;
+      i += 2;
+      const v = readVowel(input, i);
+      if (v) { result += v.matra; i += v.len; prevWasConsonant = false; }
+      else prevWasConsonant = true;
+      continue;
+    }
+
+    // Vowel at start or after another vowel
+    const v = readVowel(input, i);
+    if (v) {
+      if (prevWasConsonant) {
+        // matra already handled if reading after consonant
+      } else {
+        result += v.vowelChar;
+      }
+      i += v.len;
+      prevWasConsonant = false;
+      continue;
+    }
+
+    // Single consonant
+    if (SINGLE_CONS[seg1orig] || SINGLE_CONS[seg1]) {
+      const k = SINGLE_CONS[seg1orig] || SINGLE_CONS[seg1];
+      if (prevWasConsonant) result += '्';
+      result += k;
+      i += 1;
+      const vv = readVowel(input, i);
+      if (vv) { result += vv.matra; i += vv.len; prevWasConsonant = false; }
+      else prevWasConsonant = true;
+      continue;
+    }
+
+    // Pass through (numbers, symbols, English letters not matched)
+    if (prevWasConsonant) {
+      result += '्'; // close hanging consonant
+      prevWasConsonant = false;
+    }
+    result += input[i];
+    i++;
+  }
+
+  // Close any hanging consonant
+  if (prevWasConsonant) result += '्';
+
+  return result;
+}
+
+function readVowel(input, i) {
+  const seg2 = input.slice(i, i+2).toLowerCase();
+  const seg3 = input.slice(i, i+3).toLowerCase();
+  const seg1 = input.slice(i, i+1).toLowerCase();
+  
+  // Check 3-char vowels
+  if (seg3 === 'rri') return { vowelChar: 'ऋ', matra: 'ृ', len: 3 };
+  // 2-char
+  for (const [rom, dev] of Object.entries(MATRA)) {
+    if (rom.length === 2 && seg2 === rom) {
+      return { vowelChar: VOWELS[rom] || dev, matra: dev, len: 2 };
+    }
+  }
+  // 1-char
+  if (seg1 === 'a') return { vowelChar: 'अ', matra: 'ा', len: 1 };
+  if (seg1 === 'i') return { vowelChar: 'इ', matra: 'ि', len: 1 };
+  if (seg1 === 'u') return { vowelChar: 'उ', matra: 'ु', len: 1 };
+  if (seg1 === 'e') return { vowelChar: 'ए', matra: 'े', len: 1 };
+  if (seg1 === 'o') return { vowelChar: 'ओ', matra: 'ो', len: 1 };
+  return null;
+}
+
+// Main transliteration: processes full text preserving spaces, punctuation, newlines
+function transliterate(text) {
+  if (!text) return '';
+  
+  // Split into lines, process each line
+  const lines = text.split('\n');
+  return lines.map(line => transliterateLine(line)).join('\n');
+}
+
+function transliterateLine(line) {
+  if (!line.trim()) return line;
+  
+  // Tokenize: split by whitespace, punctuation, etc., preserving them
+  const tokens = line.split(/(\s+|[।\.!?,;:""''()\[\]{}<>\/\\\-_=+*&%$#@~^`|]|\d+)/);
+  return tokens.map(token => {
+    if (!token) return '';
+    // Whitespace, punctuation, numbers — pass through (with punct map)
+    if (/^\s+$/.test(token)) return token;
+    if (/^\d+$/.test(token)) return token;
+    if (token === '.') return '।';
+    if (token === '..') return '।।';
+    // Emojis and non-ascii non-Devanagari: pass through
+    if (/^[^\x00-\x7F]/.test(token) && !/[\u0900-\u097F]/.test(token)) return token;
+    // English word check: if ALL caps and >1 char, likely abbreviation → pass through
+    if (/^[A-Z]{2,}$/.test(token)) return token;
+    // Check if the token looks like English (not Nepali romanization)
+    // Heuristic: known English words that should pass through
+    const ENGLISH_PASSTHROUGH = new Set([
+      'the','a','an','is','are','was','were','has','have','had','be','been','being',
+      'do','does','did','will','would','can','could','shall','should','may','might','must',
+      'and','but','or','nor','for','yet','so','as','at','by','if','in','of','on','to',
+      'up','it','its','my','he','she','we','they','you','me','him','her','us','them',
+      'this','that','these','those','what','who','which','when','where','why','how',
+      'no','not','yes','ok','okay','lol','haha','hi','bye','hello',
+    ]);
+    if (ENGLISH_PASSTHROUGH.has(token.toLowerCase())) return token;
+    
+    // Otherwise transliterate
+    return transliterateWord(token);
+  }).join('');
+}
+
+// ════════════════════════════════════════════════
+//  UI LOGIC
+// ════════════════════════════════════════════════
+
+const inputBox = document.getElementById('input-box');
+const outputBox = document.getElementById('output-box');
+const inputCounter = document.getElementById('input-counter');
+const outputCounter = document.getElementById('output-counter');
+const toastEl = document.getElementById('toast');
+
+let toastTimer;
+function showToast(msg, duration = 2000) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), duration);
+}
+
+function updateCounters() {
+  const val = inputBox.value;
+  const words = val.trim() ? val.trim().split(/\s+/).length : 0;
+  inputCounter.textContent = `${val.length} chars · ${words} words`;
+  
+  const out = getOutputText();
+  outputCounter.textContent = `${out.length} chars`;
+}
+
+function getOutputText() {
+  if (outputBox.classList.contains('empty')) return '';
+  return outputBox.textContent;
+}
+
+let debounceTimer;
+function onInput() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const val = inputBox.value;
+    if (!val.trim()) {
+      outputBox.textContent = 'Nepali text will appear here…';
+      outputBox.classList.add('empty');
+    } else {
+      outputBox.textContent = transliterate(val);
+      outputBox.classList.remove('empty');
+    }
+    updateCounters();
+  }, 60);
+}
+
+inputBox.addEventListener('input', onInput);
+inputBox.addEventListener('keydown', (e) => {
+  // Tab key → 4 spaces
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const start = inputBox.selectionStart;
+    const end = inputBox.selectionEnd;
+    inputBox.value = inputBox.value.substring(0, start) + '    ' + inputBox.value.substring(end);
+    inputBox.selectionStart = inputBox.selectionEnd = start + 4;
+    onInput();
+  }
+});
+
+// History
+const HISTORY_KEY = 'nepalitypes_history';
+function saveToHistory(input, output) {
+  if (!output || output.length < 3) return;
+  let hist = getHistory();
+  const entry = { input: input.slice(0, 80), output: output.slice(0, 80), time: Date.now() };
+  // Avoid duplicates
+  hist = hist.filter(h => h.input !== entry.input);
+  hist.unshift(entry);
+  hist = hist.slice(0, 20);
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(hist)); } catch(e){}
+  renderHistory();
+}
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch(e){ return []; }
+}
+function renderHistory() {
+  const hist = getHistory();
+  const section = document.getElementById('history-section');
+  const list = document.getElementById('history-list');
+  if (!hist.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  list.innerHTML = hist.map((h, idx) => {
+    const t = new Date(h.time);
+    const timeStr = t.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    return `<div class="history-item" data-idx="${idx}" title="Click to load">
+      <div>
+        <div class="hi-text">${escHtml(h.output)}</div>
+        <div class="hi-src">${escHtml(h.input)}</div>
+      </div>
+      <div class="hi-time">${timeStr}</div>
+    </div>`;
+  }).join('');
+  list.querySelectorAll('.history-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const idx = +el.dataset.idx;
+      const h = getHistory()[idx];
+      if (h) { inputBox.value = h.input; onInput(); inputBox.focus(); }
+    });
+  });
+}
+
+// Auto-save to history on blur / when input is significant
+inputBox.addEventListener('blur', () => {
+  const inp = inputBox.value.trim();
+  const out = getOutputText().trim();
+  if (inp && out && out !== 'Nepali text will appear here…') {
+    saveToHistory(inp, out);
+  }
+});
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Buttons
+document.getElementById('paste-btn').addEventListener('click', async () => {
+  try {
+    const text = await navigator.clipboard.readText();
+    inputBox.value += text;
+    onInput(); inputBox.focus();
+    showToast('Pasted!');
+  } catch(e) { showToast('Paste failed — click inside the input box first.'); }
+});
+
+document.getElementById('clear-btn').addEventListener('click', () => {
+  const inp = inputBox.value.trim();
+  const out = getOutputText().trim();
+  if (inp && out) saveToHistory(inp, out);
+  inputBox.value = '';
+  outputBox.textContent = 'Nepali text will appear here…';
+  outputBox.classList.add('empty');
+  updateCounters();
+  inputBox.focus();
+  showToast('Cleared');
+});
+
+document.getElementById('copy-btn').addEventListener('click', () => {
+  const out = getOutputText();
+  if (!out) { showToast('Nothing to copy yet.'); return; }
+  navigator.clipboard.writeText(out).then(() => {
+    showToast('Nepali text copied! ✓');
+    outputBox.classList.add('copied-flash');
+    setTimeout(() => outputBox.classList.remove('copied-flash'), 350);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = out; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('Nepali text copied! ✓');
+  });
+});
+
+document.getElementById('download-btn').addEventListener('click', () => {
+  const out = getOutputText();
+  if (!out) { showToast('Nothing to download yet.'); return; }
+  const blob = new Blob([out], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'nepali-text.txt'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('Downloaded!');
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.shiftKey && e.key === 'C') { e.preventDefault(); document.getElementById('copy-btn').click(); }
+  if (e.ctrlKey && e.shiftKey && e.key === 'X') { e.preventDefault(); document.getElementById('clear-btn').click(); }
+  if (e.ctrlKey && e.shiftKey && e.key === 'D') { e.preventDefault(); document.getElementById('download-btn').click(); }
+});
+
+// Theme toggle
+const themeBtn = document.getElementById('theme-toggle');
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  try { localStorage.setItem('nepalitype_theme', t); } catch(e) {}
+  themeBtn.innerHTML = t === 'dark'
+    ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`
+    : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+}
+themeBtn.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  setTheme(cur === 'dark' ? 'light' : 'dark');
+});
+// Load saved theme
+try {
+  const saved = localStorage.getItem('nepalitype_theme');
+  if (saved) setTheme(saved);
+  else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+  else setTheme('light');
+} catch(e) { setTheme('light'); }
+
+// Examples
+const EXAMPLES = [
+  { rom: 'namaste', nep: 'नमस्ते' },
+  { rom: 'sano', nep: 'सानो' },
+  { rom: 'mero naam ishan ho', nep: 'मेरो नाम इशान हो' },
+  { rom: 'tapailai kasto cha', nep: 'तपाईंलाई कस्तो छ' },
+  { rom: 'dhanyabad', nep: 'धन्यवाद' },
+  { rom: 'ma school jadai chu', nep: 'म स्कुल जाँदै छु' },
+  { rom: 'nepal ramro desh ho', nep: 'नेपाल राम्रो देश हो' },
+  { rom: 'hamro ghar kathmandu ma cha', nep: 'हाम्रो घर काठमाडौं म छ' },
+  { rom: 'aaja mausam ramro cha', nep: 'आज मौसम राम्रो छ' },
+  { rom: 'timro naam ke ho', nep: 'तिम्रो नाम के हो' },
+];
+
+const grid = document.getElementById('examples-grid');
+EXAMPLES.forEach(ex => {
+  const chip = document.createElement('button');
+  chip.className = 'example-chip';
+  chip.innerHTML = `<span class="example-nep">${ex.nep}</span><span class="example-rom">${ex.rom}</span>`;
+  chip.addEventListener('click', () => {
+    inputBox.value = ex.rom;
+    onInput(); inputBox.focus();
+    showToast('Example loaded!');
+  });
+  grid.appendChild(chip);
+});
+
+// Clear history button
+document.getElementById('clear-history-btn').addEventListener('click', () => {
+  try { localStorage.removeItem(HISTORY_KEY); } catch(e) {}
+  renderHistory();
+  showToast('History cleared');
+});
+
+// Init
+renderHistory();
+updateCounters();
+inputBox.focus();
+</script>
+</body>
+</html>
